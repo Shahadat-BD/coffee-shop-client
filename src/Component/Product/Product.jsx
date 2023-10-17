@@ -8,6 +8,22 @@ const Product = () => {
         .then(data => setProduct(data))
     },[])
 
+    // coffee deleted handler
+
+    const handleDelete = id =>{
+         fetch(`http://localhost:4000/add-coffee/${id}`,{
+            method:"DELETE",
+         })
+         .then(res => res.json())
+         .then(data => {
+            if (data.deletedCount > 0) {
+                 alert("deleted coffee successfully")
+                 const remainingProduct = product.filter(prd => prd._id !== id)
+                 setProduct(remainingProduct)
+            }
+         })
+    }
+
     return (
         <div className='w-[60%] m-auto'>
             <div className='grid grid-cols-2 '>
@@ -24,7 +40,7 @@ const Product = () => {
                     <div className='mr-4'>
                          <AiOutlineEye className='text-3xl cursor-pointer rounded-md bg-[#D2B48C] text-white p-2 mb-2'/>
                          <AiOutlineEdit className='text-3xl cursor-pointer rounded-md bg-black text-white p-2 mb-2'/>
-                         <AiOutlineDelete className='text-3xl cursor-pointer rounded-md bg-red-500 text-white p-2 mb-2'/>
+                         <AiOutlineDelete onClick={()=>handleDelete(prd._id)} className='text-3xl cursor-pointer rounded-md bg-red-500 text-white p-2 mb-2'/>
         
                     </div>
                 </div>)
